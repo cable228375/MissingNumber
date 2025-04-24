@@ -1,36 +1,18 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
 class MissingNumberCalculator
 {
-    public static void PrintArray(int[] arr)
-    {
-        foreach (int i in arr)
-        {
-            Console.WriteLine(i);
-        }
-    }
-
     public static int DoOperation(int[] arr)
     {
-        // Quicksort array (ascending order)
-        Array.Sort(arr);
+        int n = arr.Length;
 
-        // Start at 0 (assumed to always be there)
-        int result = 0;
-        foreach (int i in arr)
-        {
-            // Check if the current integer exists
-            if (result == i)
-            {
-                // If it does, check for the next one
-                result++;
-            }
-            else
-            {
-                // If it doesn't exist, return the missing integer
-                return result;
-            }
-        }
-        return 0;
+        // The sum of the first n positive integers is: (n(n + 1))/2
+        int expectedSum = (n * (n + 1)) / 2;
+
+        /* Find the missing integer by calculating the sum of all integers in the array,
+        and subtract that from what is expected */
+        int sum = arr.Sum();
+        return expectedSum - sum;
     }
 }
 
@@ -47,13 +29,11 @@ class Program
         Console.WriteLine("Please enter an array of n integers in the format: \"[a, b, ..., c]\"");
         input = Console.ReadLine();
 
-        // Do some better error handling here before processing
         int[] arr;
         if (input != null)
         {
             arr = Array.ConvertAll(input.Trim('[', ']', ' ').Split(','), Convert.ToInt32);
             result = MissingNumberCalculator.DoOperation(arr);
-
             Console.WriteLine(result);
         }
         return;
